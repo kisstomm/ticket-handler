@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="202204251747-create-userbankcard" author="TamasKiss">
+        <createTable tableName="userbankcard">
+            <column name="userbankcard_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_userbankcard"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="card_id" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="card_number" type="VARCHAR(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cvc" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="userbankcard" constraintName="fk_userbankcard_user_id_users" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
+    </changeSet>
+
+    <changeSet id="202204251747-create-userbankcard-insert" author="TamasKiss">
+        <sql>
+            INSERT INTO userbankcard (userbankcard_id, user_id, card_id, card_number, cvc, name, amount, currency) VALUES
+            (1, 1000, 'C0001', '5299706965433676', '123', 'Teszt Aladár', 1000, 'HUF'),
+            (2, 2000, 'C0002', '5390508354245119', '456', 'Teszt Benedek', 2000, 'HUF'),
+            (3, 3000, 'C0003', '4929088924014470', '789', 'Teszt Cecília', 3000, 'HUF');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

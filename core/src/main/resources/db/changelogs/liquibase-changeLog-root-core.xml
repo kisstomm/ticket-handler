@@ -8,4 +8,5 @@
     <include file="202204251222-create-users.xml" relativeToChangelogFile="true"/>
     <include file="202204251722-create-userdevice.xml" relativeToChangelogFile="true"/>
     <include file="202204251740-create-usertoken.xml" relativeToChangelogFile="true"/>
+    <include file="202204251747-create-userbankcard.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
