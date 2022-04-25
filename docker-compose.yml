@@ -21,6 +21,29 @@ services:
     networks:
       - backend-network
 
+
+  core:
+    build: ./core
+    container_name: core
+    depends_on:
+      - core-db
+    ports:
+      - 51082:8082
+    environment:
+      - TZ=Europe/Budapest
+    networks:
+      - backend-network
+
+  core-db:
+    build: ./core-db
+    container_name: core-db
+    ports:
+      - 51037:5437
+    command: -p 5437
+    networks:
+      - backend-network
+
+
 networks:
   backend-network:
     name: backend-network
