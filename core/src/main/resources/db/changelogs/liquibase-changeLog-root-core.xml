@@ -6,4 +6,5 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
     <include file="202204251222-create-users.xml" relativeToChangelogFile="true"/>
+    <include file="202204251722-create-userdevice.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
