@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  api:
+    build: ./api
+    container_name: api
+    ports:
+      - 51080:8080
+    environment:
+      - TZ=Europe/Budapest
+    networks:
+      - backend-network
+
+  ticket:
+    build: ./ticket
+    container_name: ticket
+    ports:
+      - 51081:8081
+    environment:
+      - TZ=Europe/Budapest
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    name: backend-network
+    driver: bridge
