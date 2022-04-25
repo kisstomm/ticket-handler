@@ -18,4 +18,13 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="202204251222-create-users-insert" author="TamasKiss">
+        <sql>
+            INSERT INTO users (user_id, name, email) VALUES
+            (1000, 'Teszt Aladár', 'teszt.aladar@otpmobil.com'),
+            (2000, 'Teszt Benedek', 'teszt.benedek@otpmobil.com'),
+            (3000, 'Teszt Cecília', 'teszt.cecilia@otpmobil.com');
+        </sql>
+    </changeSet>
 </databaseChangeLog>
