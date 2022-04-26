@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tickethandler.common.dto.event.EventDto;
 import tickethandler.common.dto.event.EventResponseDto;
+import tickethandler.common.enums.ErrorType;
 import tickethandler.partner.mapper.EventMapper;
 import tickethandler.partner.model.Event;
 import tickethandler.partner.service.EventService;
@@ -50,8 +51,7 @@ public class PartnerController {
         } else {
             eventResponseDto.setEventDto(null);
             eventResponseDto.setSuccess(false);
-            eventResponseDto.setErrorCode(90001);
-            eventResponseDto.setErrorMessage("Nem létezik ilyen esemény!");
+            eventResponseDto.setErrorType(ErrorType.PARTNER_EVENT_NOT_FOUND);
         }
 
         return eventResponseDto;

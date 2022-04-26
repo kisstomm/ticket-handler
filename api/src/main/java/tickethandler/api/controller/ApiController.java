@@ -37,15 +37,6 @@ public class ApiController {
         RestTemplate restTemplate = new RestTemplate();
         EventResponseDto eventResponseDto = restTemplate.getForObject(uri, EventResponseDto.class);
 
-        if(!eventResponseDto.isSuccess()) {
-            switch (eventResponseDto.getErrorCode()) {
-                case 90001:
-                    eventResponseDto.setErrorCode(90001);
-                    eventResponseDto.setErrorMessage("Nem létezik ilyen esemény!");
-                    break;
-            }
-        }
-
         return eventResponseDto;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.common.dto.event.EventResponseDto;
+import tickethandler.common.enums.ErrorType;
 
 @RestController
 @Slf4j
@@ -33,10 +34,9 @@ public class TicketController {
         EventResponseDto eventResponseDto = restTemplate.getForObject(uri, EventResponseDto.class);
 
         if(!eventResponseDto.isSuccess()) {
-            switch (eventResponseDto.getErrorCode()) {
-                case 90001:
-                    eventResponseDto.setErrorCode(20001);
-                    eventResponseDto.setErrorMessage("Nem létezik ilyen esemény!");
+            switch (eventResponseDto.getErrorType()) {
+                case PARTNER_EVENT_NOT_FOUND:
+                    eventResponseDto.setErrorType(ErrorType.TICKET_EVENT_NOT_FOUND);
                 break;
             }
         }
