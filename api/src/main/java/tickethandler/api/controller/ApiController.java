@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import tickethandler.api.dto.PayDto;
+import tickethandler.common.dto.pay.PayRequestDto;
 import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.common.dto.event.EventResponseDto;
 import tickethandler.common.enums.ErrorType;
@@ -61,8 +61,8 @@ public class ApiController {
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String pay(@RequestBody PayDto payDto) {
-        log.info(String.format("API - pay: EventId: %d, SeatId: %d, CardId: %d", payDto.getEventId(), payDto.getSeatId(), payDto.CardId));
-        return String.format("Hello pay! EventId: %d, SeatId: %d, CardId: %d", payDto.getEventId(), payDto.getSeatId(), payDto.CardId);
+    public String pay(@RequestBody PayRequestDto payRequestDto) {
+        log.info(String.format("API - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.CardId));
+        return String.format("Hello pay! EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.CardId);
     }
 }
