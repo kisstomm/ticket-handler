@@ -1,11 +1,15 @@
 package tickethandler.common.enums;
 
 public enum ErrorType {
+    // PARTNER errors
     PARTNER_EVENT_NOT_FOUND(90001, "Nem létezik ilyen esemény!"),
 
+    // TICKET errors
     TICKET_EVENT_NOT_FOUND(20001, "Nem létezik ilyen esemény!"),
-    TICKET_PARTNER_NOT_REACHABLE(20004, "A külső rendszer nem elérhető!");
+    TICKET_PARTNER_NOT_REACHABLE(20004, "A külső rendszer nem elérhető!"),
 
+    // API errors
+    API_TICKET_NOT_REACHABLE(30004, "Egy belső rendszer nem elérhető!");
 
     private final int code;
     private final String message;

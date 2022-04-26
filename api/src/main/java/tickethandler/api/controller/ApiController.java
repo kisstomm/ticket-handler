@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import tickethandler.api.dto.PayDto;
 import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.common.dto.event.EventResponseDto;
+import tickethandler.common.enums.ErrorType;
 
 @RestController
 @Slf4j
@@ -26,7 +27,16 @@ public class ApiController {
         log.info("API - getEvents");
         String uri = ticketUrl + "/getEvents";
         RestTemplate restTemplate = new RestTemplate();
-        EventListResponseDto eventListResponseDto = restTemplate.getForObject(uri, EventListResponseDto.class);
+
+        EventListResponseDto eventListResponseDto;
+        try {
+            eventListResponseDto = restTemplate.getForObject(uri, EventListResponseDto.class);
+        } catch (Exception e) {
+            eventListResponseDto = new EventListResponseDto();
+            eventListResponseDto.setSuccess(false);
+            eventListResponseDto.setErrorType(ErrorType.API_TICKET_NOT_REACHABLE);
+        }
+
         return eventListResponseDto;
     }
 
@@ -35,7 +45,15 @@ public class ApiController {
         log.info(String.format("API - getEvent: %d", eventId));
         String uri = ticketUrl + "/getEvent?eventId=" + eventId;
         RestTemplate restTemplate = new RestTemplate();
-        EventResponseDto eventResponseDto = restTemplate.getForObject(uri, EventResponseDto.class);
+
+        EventResponseDto eventResponseDto;
+        try {
+            eventResponseDto = restTemplate.getForObject(uri, EventResponseDto.class);
+        } catch (Exception e) {
+            eventResponseDto = new EventResponseDto();
+            eventResponseDto.setSuccess(false);
+            eventResponseDto.setErrorType(ErrorType.API_TICKET_NOT_REACHABLE);
+        }
 
         return eventResponseDto;
     }
