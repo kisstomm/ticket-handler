@@ -29,7 +29,6 @@ public class TicketController {
             eventListResponseDto = restTemplate.getForObject(uri, EventListResponseDto.class);
         } catch(Exception e) {
             eventListResponseDto = new EventListResponseDto();
-            eventListResponseDto.setSuccess(false);
             eventListResponseDto.setErrorType(ErrorType.TICKET_PARTNER_NOT_REACHABLE);
         }
         return eventListResponseDto;
@@ -46,9 +45,7 @@ public class TicketController {
              eventResponseDto = restTemplate.getForObject(uri, EventResponseDto.class);
         } catch(Exception e) {
             log.info("TICKET error: " + e.getMessage());
-            log.info("TICKET error: " + e.toString());
             eventResponseDto = new EventResponseDto();
-            eventResponseDto.setSuccess(false);
             eventResponseDto.setErrorType(ErrorType.TICKET_PARTNER_NOT_REACHABLE);
         }
 
