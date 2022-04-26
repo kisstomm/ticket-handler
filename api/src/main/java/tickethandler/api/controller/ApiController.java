@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import tickethandler.api.dto.PayDto;
 
 @RestController
@@ -18,7 +19,10 @@ public class ApiController {
     @GetMapping("/getEvents")
     public String getEvents() {
         log.info("API - getEvents");
-        return "Hello Events!";
+        String uri = "http://ticket:8081/getEvents";
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        return result;
     }
 
     @GetMapping("/getEvent")
