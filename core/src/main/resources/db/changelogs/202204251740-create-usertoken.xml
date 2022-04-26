@@ -7,10 +7,10 @@
 
     <changeSet id="202204251740-create-usertoken" author="TamasKiss">
         <createTable tableName="usertoken">
-            <column name="usertoken_id" type="INTEGER">
+            <column name="usertoken_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_usertoken"/>
             </column>
-            <column name="user_id" type="INTEGER">
+            <column name="user_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="token" type="VARCHAR(255)">
