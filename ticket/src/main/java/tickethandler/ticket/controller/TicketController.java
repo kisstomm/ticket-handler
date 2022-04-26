@@ -45,6 +45,8 @@ public class TicketController {
         try {
              eventResponseDto = restTemplate.getForObject(uri, EventResponseDto.class);
         } catch(Exception e) {
+            log.info("TICKET error: " + e.getMessage());
+            log.info("TICKET error: " + e.toString());
             eventResponseDto = new EventResponseDto();
             eventResponseDto.setSuccess(false);
             eventResponseDto.setErrorType(ErrorType.TICKET_PARTNER_NOT_REACHABLE);

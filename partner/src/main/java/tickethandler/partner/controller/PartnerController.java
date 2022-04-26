@@ -34,7 +34,7 @@ public class PartnerController {
 
         EventListResponseDto eventListResponseDto = new EventListResponseDto();
         eventListResponseDto.setEventDtoList(eventDtoList);
-        eventListResponseDto.setSuccess(true);
+        eventListResponseDto.setErrorType(ErrorType.NO_ERROR);
 
         return eventListResponseDto;
     }
@@ -48,10 +48,9 @@ public class PartnerController {
         if (event != null) {
             EventWithSeatListDto eventWithSeatListDto = eventMapper.modelToDtoWithSeatList(event);
             eventResponseDto.setEventWithSeatListDto(eventWithSeatListDto);
-            eventResponseDto.setSuccess(true);
+            eventResponseDto.setErrorType(ErrorType.NO_ERROR);
         } else {
             eventResponseDto.setEventWithSeatListDto(null);
-            eventResponseDto.setSuccess(false);
             eventResponseDto.setErrorType(ErrorType.PARTNER_EVENT_NOT_FOUND);
         }
 

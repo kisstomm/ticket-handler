@@ -9,7 +9,10 @@ public enum ErrorType {
     TICKET_PARTNER_NOT_REACHABLE(20004, "A külső rendszer nem elérhető!"),
 
     // API errors
-    API_TICKET_NOT_REACHABLE(30004, "Egy belső rendszer nem elérhető!");
+    API_TICKET_NOT_REACHABLE(30004, "Egy belső rendszer nem elérhető!"),
+
+    // COMMON errors
+    NO_ERROR(0, "");
 
     private final int code;
     private final String message;

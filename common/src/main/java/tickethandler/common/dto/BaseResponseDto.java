@@ -25,5 +25,11 @@ public class BaseResponseDto {
         this.errorType = errorType;
         this.errorCode = errorType.getCode();
         this.errorMessage = errorType.getMessage();
+
+        if(errorType == ErrorType.NO_ERROR) {
+            this.setSuccess(true);
+        } else {
+            this.setSuccess(false);
+        }
     }
 }
