@@ -21,6 +21,7 @@ services:
       - TZ=Europe/Budapest
     networks:
       - backend-network
+      - partner-network
 
 
   core:
@@ -34,7 +35,6 @@ services:
       - TZ=Europe/Budapest
     networks:
       - backend-network
-      - partner-network
 
   core-db:
     build: ./core-db
