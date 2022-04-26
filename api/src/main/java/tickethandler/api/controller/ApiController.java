@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import tickethandler.common.dto.pay.PayRequestDto;
 import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.common.dto.event.EventResponseDto;
+import tickethandler.common.dto.pay.PayResponseDto;
 import tickethandler.common.enums.ErrorType;
 
 @RestController
@@ -61,13 +62,13 @@ public class ApiController {
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String pay(@RequestBody PayRequestDto payRequestDto) {
+    public PayResponseDto pay(@RequestBody PayRequestDto payRequestDto) {
         log.info(String.format("API - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.getCardId()));
         String uri = ticketUrl + "/pay";
         RestTemplate restTemplate = new RestTemplate();
 
-        String result = restTemplate.postForObject(uri, payRequestDto, String.class);
+        PayResponseDto payResponseDto = restTemplate.postForObject(uri, payRequestDto, PayResponseDto.class);
 
-        return result;
+        return payResponseDto;
     }
 }

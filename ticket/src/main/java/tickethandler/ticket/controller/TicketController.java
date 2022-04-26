@@ -14,7 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.common.dto.event.EventResponseDto;
 import tickethandler.common.dto.pay.PayRequestDto;
+import tickethandler.common.dto.pay.PayResponseDto;
 import tickethandler.common.dto.pay.ReserveRequestDto;
+import tickethandler.common.dto.pay.ReserveResponseDto;
 import tickethandler.common.enums.ErrorType;
 
 @RestController
@@ -71,15 +73,23 @@ public class TicketController {
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String pay(@RequestBody PayRequestDto payRequestDto) {
+    public PayResponseDto pay(@RequestBody PayRequestDto payRequestDto) {
         log.info(String.format("TICKET - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.getCardId()));
         String uri = partnerUrl + "/reserve";
         RestTemplate restTemplate = new RestTemplate();
 
         ReserveRequestDto reserveRequestDto = payRequestDto;
-        String result = restTemplate.postForObject(uri, reserveRequestDto, String.class);
+        ReserveResponseDto reserveResponseDto = restTemplate.postForObject(uri, reserveRequestDto, ReserveResponseDto.class);
 
-        return result;
+        PayResponseDto payResponseDto = new PayResponseDto();
+        payResponseDto.setEventId(reserveRequestDto.getEventId());
+        payResponseDto.setSeatId(reserveRequestDto.getSeatId());
+        payResponseDto.setCardId(payRequestDto.getCardId());
+        payResponseDto.setReservationId(reserveResponseDto.getReservationId());
+        payResponseDto.setErrorType(reserveResponseDto.getErrorType());
+
+
+        return payResponseDto;
     }
 
 }
