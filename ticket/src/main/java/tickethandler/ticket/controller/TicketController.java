@@ -2,13 +2,19 @@ package tickethandler.ticket.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.common.dto.event.EventResponseDto;
+import tickethandler.common.dto.pay.PayRequestDto;
+import tickethandler.common.dto.pay.ReserveRequestDto;
 import tickethandler.common.enums.ErrorType;
 
 @RestController
@@ -59,6 +65,21 @@ public class TicketController {
         }
 
         return eventResponseDto;
+    }
+
+
+    @PostMapping("/pay")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public String pay(@RequestBody PayRequestDto payRequestDto) {
+        log.info(String.format("TICKET - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.cardId));
+        String uri = partnerUrl + "/reserve";
+        RestTemplate restTemplate = new RestTemplate();
+
+        ReserveRequestDto reserveRequestDto = payRequestDto;
+        String result = restTemplate.postForObject(uri, reserveRequestDto, String.class);
+
+        return result;
     }
 
 }

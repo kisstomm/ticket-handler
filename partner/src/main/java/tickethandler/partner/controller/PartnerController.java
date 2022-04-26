@@ -2,12 +2,19 @@ package tickethandler.partner.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tickethandler.common.dto.event.EventDto;
 import tickethandler.common.dto.event.EventResponseDto;
 import tickethandler.common.dto.event.EventWithSeatListDto;
+import tickethandler.common.dto.pay.PayRequestDto;
+import tickethandler.common.dto.pay.ReserveRequestDto;
 import tickethandler.common.enums.ErrorType;
 import tickethandler.partner.mapper.EventMapper;
 import tickethandler.partner.model.Event;
@@ -55,5 +62,14 @@ public class PartnerController {
         }
 
         return eventResponseDto;
+    }
+
+    @PostMapping("/reserve")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public String reserve(@RequestBody ReserveRequestDto reserveRequestDto) {
+        log.info(String.format("PARTNER - reserve: EventId: %d, SeatId: %d", reserveRequestDto.getEventId(), reserveRequestDto.getSeatId()));
+
+        return String.format("Hello reserve! EventId: %d, SeatId: %d", reserveRequestDto.getEventId(), reserveRequestDto.getSeatId());
     }
 }
