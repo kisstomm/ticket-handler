@@ -22,4 +22,10 @@ public class EventService {
         return events;
 
     }
+
+    public Event getEventById(Long eventId) {
+        Event event = eventRepository.getById(eventId);
+
+        return event;
+    }
 }

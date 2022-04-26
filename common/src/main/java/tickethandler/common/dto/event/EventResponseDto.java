@@ -1,17 +1,16 @@
-package tickethandler.common.dto;
+package tickethandler.common.dto.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
+import tickethandler.common.dto.BaseResponseDto;
 
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventListResponseDto {
-    List<EventDto> eventDtoList;
+public class EventResponseDto extends BaseResponseDto {
+    EventDto eventDto;
 }

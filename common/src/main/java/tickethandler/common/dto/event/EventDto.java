@@ -1,4 +1,4 @@
-package tickethandler.common.dto;
+package tickethandler.common.dto.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
