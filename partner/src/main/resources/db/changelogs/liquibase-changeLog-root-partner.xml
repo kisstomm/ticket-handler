@@ -6,4 +6,5 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
     <include file="202204260827-create-events.xml" relativeToChangelogFile="true"/>
+    <include file="202204261115-create-seats.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
