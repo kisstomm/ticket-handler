@@ -72,7 +72,7 @@ public class TicketController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public String pay(@RequestBody PayRequestDto payRequestDto) {
-        log.info(String.format("TICKET - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.cardId));
+        log.info(String.format("TICKET - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.getCardId()));
         String uri = partnerUrl + "/reserve";
         RestTemplate restTemplate = new RestTemplate();
 

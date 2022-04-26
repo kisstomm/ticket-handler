@@ -9,6 +9,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class ReserveRequestDto {
-    public Long eventId;
-    public Long seatId;
+    private Long eventId;
+    private Long seatId;
 }

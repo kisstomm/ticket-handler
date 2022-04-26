@@ -62,7 +62,7 @@ public class ApiController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public String pay(@RequestBody PayRequestDto payRequestDto) {
-        log.info(String.format("API - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.cardId));
+        log.info(String.format("API - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.getCardId()));
         String uri = ticketUrl + "/pay";
         RestTemplate restTemplate = new RestTemplate();
 
