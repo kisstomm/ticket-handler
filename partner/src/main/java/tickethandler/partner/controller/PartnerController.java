@@ -27,7 +27,7 @@ public class PartnerController {
     private EventService eventService;
 
     @GetMapping("/getEvents")
-    public EventListResponseDto getCardValidation() {
+    public EventListResponseDto getEvents() {
         log.info("PARTNER - getEvents");
         List<Event> eventList = eventService.getAllEvents();
         List<EventDto> eventDtoList = eventMapper.modelListToDtoList(eventList);
