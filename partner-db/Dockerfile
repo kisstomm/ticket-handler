@@ -1,0 +1,10 @@
+FROM postgres:14.0
+
+ENV POSTGRES_USER partner
+ENV POSTGRES_PASSWORD partner
+ENV POSTGRES_DB partner
+ENV PGPORT 5433
+
+EXPOSE 5433
+
+CMD ["postgres"]

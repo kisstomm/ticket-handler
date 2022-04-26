@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="202204251722-create-userdevice" author="TamasKiss">
+        <createTable tableName="userdevice">
+            <column name="userdevice_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_userdevice"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="device_hash" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="userdevice" constraintName="fk_userdevice_user_id_users" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
+    </changeSet>
+
+    <changeSet id="202204251722-create-userdevice-insert" author="TamasKiss">
+        <sql>
+            INSERT INTO userdevice (userdevice_id, user_id, device_hash) VALUES
+            (1, 1000, 'F67C2BCBFCFA30FCCB36F72DCA22A817'),
+            (2, 1000, '0F1674BD19D3BBDD4C39E14734FFB876'),
+            (3, 1000, '3AE5E9658FBD7D4048BD40820B7D227D'),
+            (4, 2000, 'FADDFEA562F3C914DCC81956682DB0FC'),
+            (5, 3000, 'E68560872BDB2DF2FFE7ADC091755378');
+        </sql>
+    </changeSet>
+</databaseChangeLog>
