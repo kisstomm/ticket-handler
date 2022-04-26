@@ -11,6 +11,7 @@ services:
     networks:
       - backend-network
 
+
   ticket:
     build: ./ticket
     container_name: ticket
@@ -33,6 +34,7 @@ services:
       - TZ=Europe/Budapest
     networks:
       - backend-network
+      - partner-network
 
   core-db:
     build: ./core-db
@@ -44,7 +46,33 @@ services:
       - backend-network
 
 
+  partner:
+    build: ./partner
+    container_name: partner
+    depends_on:
+      - partner-db
+    ports:
+      - 51083:8083
+    environment:
+      - TZ=Europe/Budapest
+    networks:
+      - partner-network
+
+  partner-db:
+    build: ./partner-db
+    container_name: partner-db
+    ports:
+      - 51033:5433
+    command: -p 5433
+    networks:
+      - partner-network
+
+
 networks:
   backend-network:
     name: backend-network
+    driver: bridge
+
+  partner-network:
+    name: partner-network
     driver: bridge
