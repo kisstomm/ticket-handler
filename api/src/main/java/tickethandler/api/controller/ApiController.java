@@ -32,6 +32,7 @@ public class ApiController {
         try {
             eventListResponseDto = restTemplate.getForObject(uri, EventListResponseDto.class);
         } catch (Exception e) {
+            log.error("API error: " + e.getMessage());
             eventListResponseDto = new EventListResponseDto();
             eventListResponseDto.setErrorType(ErrorType.API_TICKET_NOT_REACHABLE);
         }
@@ -49,6 +50,7 @@ public class ApiController {
         try {
             eventResponseDto = restTemplate.getForObject(uri, EventResponseDto.class);
         } catch (Exception e) {
+            log.error("API error: " + e.getMessage());
             eventResponseDto = new EventResponseDto();
             eventResponseDto.setErrorType(ErrorType.API_TICKET_NOT_REACHABLE);
         }

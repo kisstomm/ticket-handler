@@ -28,6 +28,7 @@ public class TicketController {
         try {
             eventListResponseDto = restTemplate.getForObject(uri, EventListResponseDto.class);
         } catch(Exception e) {
+            log.error("TICKET error: " + e.getMessage());
             eventListResponseDto = new EventListResponseDto();
             eventListResponseDto.setErrorType(ErrorType.TICKET_PARTNER_NOT_REACHABLE);
         }
@@ -36,7 +37,7 @@ public class TicketController {
 
     @GetMapping("/getEvent")
     public EventResponseDto getEvent(@RequestParam("eventId") Long eventId) {
-        log.info(String.format("TICKET - getEvent: %d", eventId));
+        log.error(String.format("TICKET - getEvent: %d", eventId));
         String uri = partnerUrl + "/getEvent?eventId=" + eventId;
         RestTemplate restTemplate = new RestTemplate();
 

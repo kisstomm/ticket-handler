@@ -17,19 +17,15 @@ public class BaseResponseDto {
 
     // SETTERS
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
     public void setErrorType(ErrorType errorType) {
         this.errorType = errorType;
         this.errorCode = errorType.getCode();
         this.errorMessage = errorType.getMessage();
 
         if(errorType == ErrorType.NO_ERROR) {
-            this.setSuccess(true);
+            this.success = true;
         } else {
-            this.setSuccess(false);
+            this.success = false;
         }
     }
 }
