@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +19,5 @@ public class EventDto {
     private String location;
     private LocalDateTime startTimestamp;
     private LocalDateTime endTimestamp;
+    private List<SeatDto> seatList;
 }
