@@ -23,14 +23,14 @@ public class PartnerController {
     private EventService eventService;
 
     @GetMapping("/getEvents")
-    public String getCardValidation() {
-        log.info("PARTNER - getEvents - 123");
+    public EventListResponseDto getCardValidation() {
+        log.info("PARTNER - getEvents");
         List<Event> eventList = eventService.getAllEvents();
         List<EventDto> eventDtoList = eventMapper.modelListToDtoList(eventList);
 
         EventListResponseDto eventListResponseDto = new EventListResponseDto();
         eventListResponseDto.setEventDtoList(eventDtoList);
 
-        return "Hello getEvents!";
+        return eventListResponseDto;
     }
 }

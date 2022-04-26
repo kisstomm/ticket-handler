@@ -11,18 +11,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import tickethandler.api.dto.PayDto;
+import tickethandler.common.dto.EventListResponseDto;
 
 @RestController
 @Slf4j
 public class ApiController {
 
     @GetMapping("/getEvents")
-    public String getEvents() {
+    public EventListResponseDto getEvents() {
         log.info("API - getEvents");
         String uri = "http://ticket:8081/getEvents";
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        return result;
+        EventListResponseDto eventListResponseDto = restTemplate.getForObject(uri, EventListResponseDto.class);
+        return eventListResponseDto;
     }
 
     @GetMapping("/getEvent")
