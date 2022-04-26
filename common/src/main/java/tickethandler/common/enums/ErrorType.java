@@ -3,6 +3,7 @@ package tickethandler.common.enums;
 public enum ErrorType {
     // PARTNER errors
     PARTNER_EVENT_NOT_FOUND(90001, "Nem létezik ilyen esemény!"),
+    PARTNER_SEAT_NOT_FOUND(90002, "Nem létezik ilyen szék!"),
 
     // TICKET errors
     TICKET_EVENT_NOT_FOUND(20001, "Nem létezik ilyen esemény!"),

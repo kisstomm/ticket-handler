@@ -15,6 +15,7 @@ import tickethandler.common.dto.event.EventResponseDto;
 import tickethandler.common.dto.event.EventWithSeatListDto;
 import tickethandler.common.dto.pay.PayRequestDto;
 import tickethandler.common.dto.pay.ReserveRequestDto;
+import tickethandler.common.dto.pay.ReserveResponseDto;
 import tickethandler.common.enums.ErrorType;
 import tickethandler.partner.mapper.EventMapper;
 import tickethandler.partner.model.Event;
@@ -72,15 +73,22 @@ public class PartnerController {
     @PostMapping("/reserve")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String reserve(@RequestBody ReserveRequestDto reserveRequestDto) {
+    public ReserveResponseDto reserve(@RequestBody ReserveRequestDto reserveRequestDto) {
         log.info(String.format("PARTNER - reserve: EventId: %d, SeatId: %d", reserveRequestDto.getEventId(), reserveRequestDto.getSeatId()));
-
         Seat seat = seatService.getSeatById(reserveRequestDto.getSeatId());
+
+        ReserveResponseDto reserveResponseDto;
         if (seat != null) {
             seat.setReserved(true);
             seatService.save(seat);
+
+            reserveResponseDto = new ReserveResponseDto(reserveRequestDto);
+            reserveResponseDto.setErrorType(ErrorType.NO_ERROR);
+        } else {
+            reserveResponseDto = new ReserveResponseDto();
+            reserveResponseDto.setErrorType(ErrorType.PARTNER_SEAT_NOT_FOUND);
         }
 
-        return String.format("Hello reserve! EventId: %d, SeatId: %d", reserveRequestDto.getEventId(), reserveRequestDto.getSeatId());
+        return reserveResponseDto;
     }
 }
