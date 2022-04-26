@@ -77,13 +77,19 @@ public class PartnerController {
         log.info(String.format("PARTNER - reserve: EventId: %d, SeatId: %d", reserveRequestDto.getEventId(), reserveRequestDto.getSeatId()));
         Seat seat = seatService.getSeatById(reserveRequestDto.getSeatId());
 
-        ReserveResponseDto reserveResponseDto;
+        ReserveResponseDto reserveResponseDto = new ReserveResponseDto(reserveRequestDto);
         if (seat != null) {
-            seat.setReserved(true);
-            seatService.save(seat);
-
-            reserveResponseDto = new ReserveResponseDto(reserveRequestDto);
-            reserveResponseDto.setErrorType(ErrorType.NO_ERROR);
+            if (seat.getEventId() == reserveRequestDto.getEventId()) {
+                if (!seat.getReserved()) {
+                    seat.setReserved(true);
+                    seatService.save(seat);
+                    reserveResponseDto.setErrorType(ErrorType.NO_ERROR);
+                } else {
+                    reserveResponseDto.setErrorType(ErrorType.PARTNER_SEAT_IS_SOLD);
+                }
+            } else {
+                reserveResponseDto.setErrorType(ErrorType.PARTNER_SEAT_IS_NOT_FOR_EVENT);
+            }
         } else {
             reserveResponseDto = new ReserveResponseDto();
             reserveResponseDto.setErrorType(ErrorType.PARTNER_SEAT_NOT_FOUND);
