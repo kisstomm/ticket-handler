@@ -32,6 +32,7 @@ public class PartnerController {
 
         EventListResponseDto eventListResponseDto = new EventListResponseDto();
         eventListResponseDto.setEventDtoList(eventDtoList);
+        eventListResponseDto.setSuccess(true);
 
         return eventListResponseDto;
     }
@@ -40,10 +41,18 @@ public class PartnerController {
     public EventResponseDto getEvent(@RequestParam("eventId") Long eventId) {
         log.info(String.format("PARTNER - getEvent: %d", eventId));
         Event event = eventService.getEventById(eventId);
-        EventDto eventDto = eventMapper.modelToDto(event);
 
         EventResponseDto eventResponseDto = new EventResponseDto();
-        eventResponseDto.setEventDto(eventDto);
+        if (event != null) {
+            EventDto eventDto = eventMapper.modelToDto(event);
+            eventResponseDto.setEventDto(eventDto);
+            eventResponseDto.setSuccess(true);
+        } else {
+            eventResponseDto.setEventDto(null);
+            eventResponseDto.setSuccess(false);
+            eventResponseDto.setErrorCode(90001);
+            eventResponseDto.setErrorMessage("Nem létezik ilyen esemény!");
+        }
 
         return eventResponseDto;
     }

@@ -12,4 +12,6 @@ import lombok.Setter;
 public class BaseResponseDto {
 
     private boolean success;
+    private int errorCode;
+    private String errorMessage;
 }
