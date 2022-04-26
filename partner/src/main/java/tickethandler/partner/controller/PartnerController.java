@@ -18,8 +18,10 @@ import tickethandler.common.dto.pay.ReserveRequestDto;
 import tickethandler.common.enums.ErrorType;
 import tickethandler.partner.mapper.EventMapper;
 import tickethandler.partner.model.Event;
+import tickethandler.partner.model.Seat;
 import tickethandler.partner.service.EventService;
 import tickethandler.common.dto.event.EventListResponseDto;
+import tickethandler.partner.service.SeatService;
 
 import java.util.List;
 
@@ -32,6 +34,9 @@ public class PartnerController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private SeatService seatService;
 
     @GetMapping("/getEvents")
     public EventListResponseDto getEvents() {
@@ -69,6 +74,12 @@ public class PartnerController {
     @ResponseBody
     public String reserve(@RequestBody ReserveRequestDto reserveRequestDto) {
         log.info(String.format("PARTNER - reserve: EventId: %d, SeatId: %d", reserveRequestDto.getEventId(), reserveRequestDto.getSeatId()));
+
+        Seat seat = seatService.getSeatById(reserveRequestDto.getSeatId());
+        if (seat != null) {
+            seat.setReserved(true);
+            seatService.save(seat);
+        }
 
         return String.format("Hello reserve! EventId: %d, SeatId: %d", reserveRequestDto.getEventId(), reserveRequestDto.getSeatId());
     }
