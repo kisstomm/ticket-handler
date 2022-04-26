@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.common.dto.event.EventResponseDto;
@@ -30,8 +31,16 @@ public class TicketController {
     public EventResponseDto getEvent(@RequestParam("eventId") Long eventId) {
         log.info(String.format("TICKET - getEvent: %d", eventId));
         String uri = partnerUrl + "/getEvent?eventId=" + eventId;
-        RestTemplate restTemplate = new RestTemplate();
-        EventResponseDto eventResponseDto = restTemplate.getForObject(uri, EventResponseDto.class);
+
+        EventResponseDto eventResponseDto;
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+             eventResponseDto = restTemplate.getForObject(uri, EventResponseDto.class);
+        } catch(Exception e) {
+            eventResponseDto = new EventResponseDto();
+            eventResponseDto.setSuccess(false);
+            eventResponseDto.setErrorType(ErrorType.TICKET_PARTNER_NOT_REACHABLE);
+        }
 
         if(!eventResponseDto.isSuccess()) {
             switch (eventResponseDto.getErrorType()) {
