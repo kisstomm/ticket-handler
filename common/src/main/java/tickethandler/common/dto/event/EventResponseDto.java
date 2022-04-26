@@ -12,5 +12,5 @@ import tickethandler.common.dto.BaseResponseDto;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventResponseDto extends BaseResponseDto {
-    EventDto eventDto;
+    EventWithSeatListDto eventWithSeatListDto;
 }

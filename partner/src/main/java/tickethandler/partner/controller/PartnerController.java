@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tickethandler.common.dto.event.EventDto;
 import tickethandler.common.dto.event.EventResponseDto;
+import tickethandler.common.dto.event.EventWithSeatListDto;
 import tickethandler.common.enums.ErrorType;
 import tickethandler.partner.mapper.EventMapper;
 import tickethandler.partner.model.Event;
@@ -45,11 +46,11 @@ public class PartnerController {
 
         EventResponseDto eventResponseDto = new EventResponseDto();
         if (event != null) {
-            EventDto eventDto = eventMapper.modelToDto(event);
-            eventResponseDto.setEventDto(eventDto);
+            EventWithSeatListDto eventWithSeatListDto = eventMapper.modelToDtoWithSeatList(event);
+            eventResponseDto.setEventWithSeatListDto(eventWithSeatListDto);
             eventResponseDto.setSuccess(true);
         } else {
-            eventResponseDto.setEventDto(null);
+            eventResponseDto.setEventWithSeatListDto(null);
             eventResponseDto.setSuccess(false);
             eventResponseDto.setErrorType(ErrorType.PARTNER_EVENT_NOT_FOUND);
         }

@@ -12,11 +12,12 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventDto {
+public class EventWithSeatListDto {
 
     private Long eventId;
     private String title;
     private String location;
     private LocalDateTime startTimestamp;
     private LocalDateTime endTimestamp;
+    private List<SeatDto> seatList;
 }
