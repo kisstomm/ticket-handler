@@ -25,6 +25,7 @@ import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.partner.service.SeatService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -83,6 +84,8 @@ public class PartnerController {
                 if (!seat.getReserved()) {
                     seat.setReserved(true);
                     seatService.save(seat);
+
+                    reserveResponseDto.setReservationId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
                     reserveResponseDto.setErrorType(ErrorType.NO_ERROR);
                 } else {
                     reserveResponseDto.setErrorType(ErrorType.PARTNER_SEAT_IS_SOLD);
