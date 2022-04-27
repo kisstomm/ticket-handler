@@ -59,12 +59,23 @@ public class ApiController {
     }
 
     @GetMapping("/getEvent")
-    public EventResponseDto getEvent(@RequestParam("eventId") Long eventId) {
+    public EventResponseDto getEvent(
+            @RequestHeader(name = "User-Token", defaultValue = "") String token,
+            @RequestParam("eventId") Long eventId
+        ) {
         log.info(String.format("API - getEvent: %d", eventId));
         String uri = ticketUrl + "/getEvent?eventId=" + eventId;
         RestTemplate restTemplate = new RestTemplate();
-
         EventResponseDto eventResponseDto;
+
+        UsertokenResponseDto usertokenResponseDto = tokenService.isTokenValid(token);
+        if (!usertokenResponseDto.isSuccess()) {
+            eventResponseDto = new EventResponseDto();
+            eventResponseDto.setErrorType(usertokenResponseDto.getErrorType());
+
+            return eventResponseDto;
+        }
+
         try {
             eventResponseDto = restTemplate.getForObject(uri, EventResponseDto.class);
         } catch (Exception e) {
