@@ -1,0 +1,78 @@
+version: '3.7'
+
+services:
+  api:
+    build: ./api
+    container_name: api
+    ports:
+      - 51080:8080
+    environment:
+      - TZ=Europe/Budapest
+    networks:
+      - backend-network
+
+
+  ticket:
+    build: ./ticket
+    container_name: ticket
+    expose:
+      - 8081
+    environment:
+      - TZ=Europe/Budapest
+    networks:
+      - backend-network
+      - partner-network
+
+
+  core:
+    build: ./core
+    container_name: core
+    depends_on:
+      - core-db
+    expose:
+      - 8082
+    environment:
+      - TZ=Europe/Budapest
+    networks:
+      - backend-network
+
+  core-db:
+    build: ./core-db
+    container_name: core-db
+    ports:
+      - 51037:5437
+    command: -p 5437
+    networks:
+      - backend-network
+
+
+  partner:
+    build: ./partner
+    container_name: partner
+    depends_on:
+      - partner-db
+    expose:
+      - 8083
+    environment:
+      - TZ=Europe/Budapest
+    networks:
+      - partner-network
+
+  partner-db:
+    build: ./partner-db
+    container_name: partner-db
+    ports:
+      - 51033:5433
+    command: -p 5433
+    networks:
+      - partner-network
+
+
+networks:
+  backend-network:
+    name: backend-network
+    driver: bridge
+
+  partner-network:
+    name: partner-network
+    driver: bridge

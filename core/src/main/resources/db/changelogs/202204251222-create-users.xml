@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="202204251222-create-users" author="TamasKiss">
+        <createTable tableName="users">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="202204251222-create-users-insert" author="TamasKiss">
+        <sql>
+            INSERT INTO users (user_id, name, email) VALUES
+            (1000, 'Teszt Aladár', 'teszt.aladar@otpmobil.com'),
+            (2000, 'Teszt Benedek', 'teszt.benedek@otpmobil.com'),
+            (3000, 'Teszt Cecília', 'teszt.cecilia@otpmobil.com');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

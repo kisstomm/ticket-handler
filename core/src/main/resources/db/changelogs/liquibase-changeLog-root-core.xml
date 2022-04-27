@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <include file="202204251222-create-users.xml" relativeToChangelogFile="true"/>
+    <include file="202204251722-create-userdevice.xml" relativeToChangelogFile="true"/>
+    <include file="202204251740-create-usertoken.xml" relativeToChangelogFile="true"/>
+    <include file="202204251747-create-userbankcard.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>
