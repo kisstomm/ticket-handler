@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@CrossOrigin(origins = {"${settings.cors_origin}"})
 @Slf4j
 public class PartnerController {
 
