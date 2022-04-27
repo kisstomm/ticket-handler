@@ -24,6 +24,7 @@ import tickethandler.partner.service.EventService;
 import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.partner.service.SeatService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -78,17 +79,22 @@ public class PartnerController {
         log.info(String.format("PARTNER - reserve: EventId: %d, SeatId: %d", reserveRequestDto.getEventId(), reserveRequestDto.getSeatId()));
         Seat seat = seatService.getSeatById(reserveRequestDto.getSeatId());
 
+        LocalDateTime now = LocalDateTime.now();
         ReserveResponseDto reserveResponseDto = new ReserveResponseDto(reserveRequestDto);
         if (seat != null) {
             if (seat.getEventId() == reserveRequestDto.getEventId()) {
-                if (!seat.getReserved()) {
-                    seat.setReserved(true);
-                    seatService.save(seat);
+                if(seat.getEvent().getStartTimestamp().isAfter(now)) {
+                    if (!seat.getReserved()) {
+                        seat.setReserved(true);
+                        seatService.save(seat);
 
-                    reserveResponseDto.setReservationId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-                    reserveResponseDto.setErrorType(ErrorType.NO_ERROR);
+                        reserveResponseDto.setReservationId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
+                        reserveResponseDto.setErrorType(ErrorType.NO_ERROR);
+                    } else {
+                        reserveResponseDto.setErrorType(ErrorType.PARTNER_SEAT_IS_SOLD);
+                    }
                 } else {
-                    reserveResponseDto.setErrorType(ErrorType.PARTNER_SEAT_IS_SOLD);
+                    reserveResponseDto.setErrorType(ErrorType.PARTNER_EVENT_STARTED);
                 }
             } else {
                 reserveResponseDto.setErrorType(ErrorType.PARTNER_SEAT_IS_NOT_FOR_EVENT);
