@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import tickethandler.common.dto.event.EventDto;
 import tickethandler.common.dto.event.EventResponseDto;
 import tickethandler.common.dto.event.EventWithSeatListDto;
+import tickethandler.common.dto.event.SeatDto;
+import tickethandler.common.dto.event.SeatResponseDto;
 import tickethandler.common.dto.pay.PayRequestDto;
 import tickethandler.common.dto.pay.ReserveRequestDto;
 import tickethandler.common.dto.pay.ReserveResponseDto;
 import tickethandler.common.enums.ErrorType;
 import tickethandler.partner.mapper.EventMapper;
+import tickethandler.partner.mapper.SeatMapper;
 import tickethandler.partner.model.Event;
 import tickethandler.partner.model.Seat;
 import tickethandler.partner.service.EventService;
@@ -34,6 +37,9 @@ public class PartnerController {
 
     @Autowired
     private EventMapper eventMapper;
+
+    @Autowired
+    private SeatMapper seatMapper;
 
     @Autowired
     private EventService eventService;
@@ -70,6 +76,24 @@ public class PartnerController {
         }
 
         return eventResponseDto;
+    }
+
+    @GetMapping("/getSeat")
+    public SeatResponseDto getSeat(@RequestParam("seatId") Long seatId) {
+        log.info(String.format("PARTNER - getSeat: %d", seatId));
+        Seat seat = seatService.getSeatById(seatId);
+
+        SeatResponseDto seatResponseDto = new SeatResponseDto();
+        if (seat != null) {
+            SeatDto seatDto = seatMapper.modelToDto(seat);
+            seatResponseDto.setSeatDto(seatDto);
+            seatResponseDto.setErrorType(ErrorType.NO_ERROR);
+        } else {
+            seatResponseDto.setSeatDto(null);
+            seatResponseDto.setErrorType(ErrorType.PARTNER_SEAT_NOT_FOUND);
+        }
+
+        return seatResponseDto;
     }
 
     @PostMapping("/reserve")

@@ -16,6 +16,10 @@ public enum ErrorType {
     TICKET_EVENT_STARTED(20011, "Olyan eseményre ami már elkezdődött nem lehet jegyet eladni!"),
     TICKET_PARTNER_NOT_REACHABLE(20404, "A külső rendszer nem elérhető!"),
 
+    // CORE errors
+    CORE_CARD_NOT_FOR_USER(10100, "Ez a bankkártya nem ehhez a felhasználóhoz tartozik!"),
+    CORE_NOT_ENOUGH_MONEY(10101, "A felhasználónak nincs elegendő pénze hogy megvásárolja a jegyet!"),
+
     // API errors
     API_TICKET_NOT_REACHABLE(30004, "Egy belső rendszer nem elérhető!"),
 
