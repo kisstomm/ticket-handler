@@ -27,13 +27,17 @@ public class CoreController {
     UserTokenService userTokenService;
 
     @GetMapping("/getCardValidation")
-    public CardValidationResponseDto getCardValidation(@RequestParam("cardId") Long cardId, @RequestParam("amount") Integer amount) {
-        log.info(String.format("CORE - getCardValidation: cardId: %d, amount: %d", cardId, amount));
+    public CardValidationResponseDto getCardValidation(
+            @RequestParam("userId") Long userId,
+            @RequestParam("cardId") Long cardId,
+            @RequestParam("amount") Integer amount
+    ) {
+        log.info(String.format("CORE - getCardValidation: userId: %d, cardId: %d, amount: %d", userId, cardId, amount));
 
         CardValidationResponseDto cardValidationResponseDto = new CardValidationResponseDto();
         Userbankcard card = userbankcardService.getCardById(cardId);
 
-        if(card == null) {
+        if(card == null || !Objects.equals(card.getUserId(), userId)) {
             cardValidationResponseDto.setErrorType(ErrorType.CORE_CARD_NOT_FOR_USER);
             return cardValidationResponseDto;
         }

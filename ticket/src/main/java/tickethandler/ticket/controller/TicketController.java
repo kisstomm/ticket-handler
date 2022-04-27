@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +56,7 @@ public class TicketController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public PayResponseDto pay(@RequestBody PayRequestDto payRequestDto) {
-        log.info(String.format("TICKET - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.getCardId()));
+        log.info(String.format("TICKET - pay: UserId: %d,EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getUserId(), payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.getCardId()));
         PayResponseDto payResponseDto;
 
         SeatResponseDto seatResponseDto = eventService.getSeat(payRequestDto.getSeatId());

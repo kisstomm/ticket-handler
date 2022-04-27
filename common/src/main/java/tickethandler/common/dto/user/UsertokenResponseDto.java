@@ -11,6 +11,6 @@ import tickethandler.common.dto.BaseResponseDto;
 @NoArgsConstructor
 public class UsertokenResponseDto extends BaseResponseDto {
     private Long usertokenId;
-    private String userId;
+    private Long userId;
     private String token;
 }

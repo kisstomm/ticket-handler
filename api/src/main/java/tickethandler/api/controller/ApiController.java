@@ -90,12 +90,25 @@ public class ApiController {
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public PayResponseDto pay(@RequestBody PayRequestDto payRequestDto) {
+    public PayResponseDto pay(
+            @RequestHeader(name = "User-Token", defaultValue = "") String token,
+            @RequestBody PayRequestDto payRequestDto
+    ) {
         log.info(String.format("API - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.getCardId()));
-        String uri = ticketUrl + "/pay";
         RestTemplate restTemplate = new RestTemplate();
+        PayResponseDto payResponseDto;
 
-        PayResponseDto payResponseDto = restTemplate.postForObject(uri, payRequestDto, PayResponseDto.class);
+        UsertokenResponseDto usertokenResponseDto = tokenService.isTokenValid(token);
+        if (!usertokenResponseDto.isSuccess()) {
+            payResponseDto = new PayResponseDto();
+            payResponseDto.setErrorType(usertokenResponseDto.getErrorType());
+
+            return payResponseDto;
+        }
+
+        String uri = ticketUrl + "/pay";
+        payRequestDto.setUserId(usertokenResponseDto.getUserId());
+        payResponseDto = restTemplate.postForObject(uri, payRequestDto, PayResponseDto.class);
 
         return payResponseDto;
     }
