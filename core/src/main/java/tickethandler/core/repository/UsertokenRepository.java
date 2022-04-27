@@ -6,4 +6,6 @@ import tickethandler.core.model.Usertoken;
 
 @Repository
 public interface UsertokenRepository extends JpaRepository<Usertoken, Long> {
+
+    Usertoken findByToken(String token);
 }

@@ -1,20 +1,25 @@
 package tickethandler.api.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import tickethandler.api.service.TokenService;
+import tickethandler.common.dto.BaseResponseDto;
 import tickethandler.common.dto.pay.PayRequestDto;
 import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.common.dto.event.EventResponseDto;
 import tickethandler.common.dto.pay.PayResponseDto;
+import tickethandler.common.dto.user.UsertokenResponseDto;
 import tickethandler.common.enums.ErrorType;
 
 @RestController
@@ -23,13 +28,25 @@ public class ApiController {
     @Value("${tickethandler.ticket.url}")
     private String ticketUrl;
 
-    @GetMapping("/getEvents")
-    public EventListResponseDto getEvents() {
-        log.info("API - getEvents");
-        String uri = ticketUrl + "/getEvents";
-        RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    TokenService tokenService;
 
+    @GetMapping("/getEvents")
+    public EventListResponseDto getEvents(@RequestHeader(name = "User-Token", defaultValue = "") String token) {
+        log.info("API - getEvents: " + token);
         EventListResponseDto eventListResponseDto;
+
+        UsertokenResponseDto usertokenResponseDto = tokenService.isTokenValid(token);
+        if (!usertokenResponseDto.isSuccess()) {
+            eventListResponseDto = new EventListResponseDto();
+            eventListResponseDto.setErrorType(usertokenResponseDto.getErrorType());
+
+            return eventListResponseDto;
+        }
+
+
+        RestTemplate restTemplate = new RestTemplate();
+        String uri = ticketUrl + "/getEvents";
         try {
             eventListResponseDto = restTemplate.getForObject(uri, EventListResponseDto.class);
         } catch (Exception e) {

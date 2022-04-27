@@ -20,7 +20,7 @@ public class Usertoken {
 
     @Id
     @Column(name = "usertoken_id", nullable = false)
-    private Long userdeviceId;
+    private Long usertokenId;
 
     @Column(name = "user_id", nullable = false)
     private String userId;

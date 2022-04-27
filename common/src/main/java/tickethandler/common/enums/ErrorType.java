@@ -17,11 +17,14 @@ public enum ErrorType {
     TICKET_PARTNER_NOT_REACHABLE(20404, "A külső rendszer nem elérhető!"),
 
     // CORE errors
+    CORE_USER_TOKEN_NULL(10050, "A felhasználói token nem szerepel!"),
+    CORE_USER_TOKEN_INVALID(10051, "A felhasználói token lejárt vagy nem értelmezhető!"),
     CORE_CARD_NOT_FOR_USER(10100, "Ez a bankkártya nem ehhez a felhasználóhoz tartozik!"),
     CORE_NOT_ENOUGH_MONEY(10101, "A felhasználónak nincs elegendő pénze hogy megvásárolja a jegyet!"),
 
     // API errors
     API_TICKET_NOT_REACHABLE(30004, "Egy belső rendszer nem elérhető!"),
+    API_CORE_NOT_REACHABLE(30005, "Egy belső rendszer nem elérhető!"),
 
     // COMMON errors
     NO_ERROR(0, "");
