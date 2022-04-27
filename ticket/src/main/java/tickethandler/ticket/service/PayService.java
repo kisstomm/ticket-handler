@@ -22,8 +22,8 @@ public class PayService {
     private String partnerUrl;
 
     public CardValidationResponseDto checkBankCard(PayRequestDto payRequestDto, Integer amount) {
-        log.info(String.format("TICKET - checkBankCard: EventId: %d, SeatId: %d, CardId: %d, amount: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.getCardId(), amount));
-        String uri = coreUrl + String.format("/getCardValidation?cardId=%d&amount=%d", payRequestDto.getCardId(), amount);
+        log.info(String.format("TICKET - checkBankCard: UserId: %d, EventId: %d, SeatId: %d, CardId: %d, amount: %d", payRequestDto.getUserId(), payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.getCardId(), amount));
+        String uri = coreUrl + String.format("/getCardValidation?userId=%d&cardId=%d&amount=%d", payRequestDto.getUserId(), payRequestDto.getCardId(), amount);
         RestTemplate restTemplate = new RestTemplate();
 
         CardValidationResponseDto cardValidationResponseDto;

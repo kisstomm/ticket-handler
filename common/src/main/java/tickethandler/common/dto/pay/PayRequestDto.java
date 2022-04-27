@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PayRequestDto extends ReserveRequestDto {
     private Long cardId;
+    private Long userId;
 }
