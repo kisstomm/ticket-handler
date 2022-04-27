@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import tickethandler.api.dto.PayDto;
+import tickethandler.common.dto.pay.PayRequestDto;
 import tickethandler.common.dto.event.EventListResponseDto;
 import tickethandler.common.dto.event.EventResponseDto;
+import tickethandler.common.dto.pay.PayResponseDto;
 import tickethandler.common.enums.ErrorType;
 
 @RestController
@@ -61,8 +62,13 @@ public class ApiController {
     @PostMapping("/pay")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String pay(@RequestBody PayDto payDto) {
-        log.info(String.format("API - pay: EventId: %d, SeatId: %d, CardId: %d", payDto.getEventId(), payDto.getSeatId(), payDto.CardId));
-        return String.format("Hello pay! EventId: %d, SeatId: %d, CardId: %d", payDto.getEventId(), payDto.getSeatId(), payDto.CardId);
+    public PayResponseDto pay(@RequestBody PayRequestDto payRequestDto) {
+        log.info(String.format("API - pay: EventId: %d, SeatId: %d, CardId: %d", payRequestDto.getEventId(), payRequestDto.getSeatId(), payRequestDto.getCardId()));
+        String uri = ticketUrl + "/pay";
+        RestTemplate restTemplate = new RestTemplate();
+
+        PayResponseDto payResponseDto = restTemplate.postForObject(uri, payRequestDto, PayResponseDto.class);
+
+        return payResponseDto;
     }
 }

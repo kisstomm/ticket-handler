@@ -62,16 +62,16 @@
             (29, 3000, 'HUF', true, 3),
             (30, 3000, 'HUF', true, 3),
 
-            (31, 1000, 'HUF', true, 4),
-            (32, 1000, 'HUF', true, 4),
-            (33, 1000, 'HUF', true, 4),
-            (34, 1000, 'HUF', true, 4),
-            (35, 1000, 'HUF', true, 4),
-            (36, 2000, 'HUF', true, 4),
-            (37, 2000, 'HUF', true, 4),
-            (38, 2000, 'HUF', true, 4),
-            (39, 2000, 'HUF', true, 4),
-            (40, 2000, 'HUF', true, 4);
+            (31, 1000, 'HUF', false, 4),
+            (32, 1000, 'HUF', false, 4),
+            (33, 1000, 'HUF', false, 4),
+            (34, 1000, 'HUF', false, 4),
+            (35, 1000, 'HUF', false, 4),
+            (36, 2000, 'HUF', false, 4),
+            (37, 2000, 'HUF', false, 4),
+            (38, 2000, 'HUF', false, 4),
+            (39, 2000, 'HUF', false, 4),
+            (40, 2000, 'HUF', false, 4);
 
         </sql>
     </changeSet>
