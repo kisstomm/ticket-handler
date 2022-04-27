@@ -10,7 +10,10 @@ public enum ErrorType {
 
     // TICKET errors
     TICKET_EVENT_NOT_FOUND(20001, "Nem létezik ilyen esemény!"),
-    TICKET_EVENT_STARTED(90011, "Olyan eseményre ami már elkezdődött nem lehet jegyet eladni!"),
+    TICKET_SEAT_NOT_FOUND(20002, "Nem létezik ilyen szék!"),
+    TICKET_SEAT_IS_NOT_FOR_EVENT(20009, "A megadott szék nem a megadott eseményhez tartozik!"),
+    TICKET_SEAT_IS_SOLD(20010, "Már lefoglalt székre nem lehet jegyet eladni!"),
+    TICKET_EVENT_STARTED(20011, "Olyan eseményre ami már elkezdődött nem lehet jegyet eladni!"),
     TICKET_PARTNER_NOT_REACHABLE(20404, "A külső rendszer nem elérhető!"),
 
     // API errors

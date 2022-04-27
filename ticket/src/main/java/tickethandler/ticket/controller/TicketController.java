@@ -79,7 +79,14 @@ public class TicketController {
         RestTemplate restTemplate = new RestTemplate();
 
         ReserveRequestDto reserveRequestDto = payRequestDto;
-        ReserveResponseDto reserveResponseDto = restTemplate.postForObject(uri, reserveRequestDto, ReserveResponseDto.class);
+        ReserveResponseDto reserveResponseDto;
+        try {
+            reserveResponseDto = restTemplate.postForObject(uri, reserveRequestDto, ReserveResponseDto.class);
+        } catch(Exception e) {
+            log.info("TICKET error: " + e.getMessage());
+            reserveResponseDto = new ReserveResponseDto();
+            reserveResponseDto.setErrorType(ErrorType.TICKET_PARTNER_NOT_REACHABLE);
+        }
 
         PayResponseDto payResponseDto = new PayResponseDto();
         payResponseDto.setEventId(reserveRequestDto.getEventId());
@@ -87,6 +94,23 @@ public class TicketController {
         payResponseDto.setCardId(payRequestDto.getCardId());
         payResponseDto.setReservationId(reserveResponseDto.getReservationId());
         payResponseDto.setErrorType(reserveResponseDto.getErrorType());
+
+        if(!payResponseDto.isSuccess()) {
+            switch (payResponseDto.getErrorType()) {
+                case PARTNER_SEAT_IS_SOLD:
+                    payResponseDto.setErrorType(ErrorType.TICKET_SEAT_IS_SOLD);
+                    break;
+                case PARTNER_EVENT_STARTED:
+                    payResponseDto.setErrorType(ErrorType.TICKET_EVENT_STARTED);
+                    break;
+                case PARTNER_SEAT_IS_NOT_FOR_EVENT:
+                    payResponseDto.setErrorType(ErrorType.TICKET_SEAT_IS_NOT_FOR_EVENT);
+                    break;
+                case PARTNER_SEAT_NOT_FOUND:
+                    payResponseDto.setErrorType(ErrorType.TICKET_SEAT_NOT_FOUND);
+                    break;
+            }
+        }
 
 
         return payResponseDto;
