@@ -12,6 +12,6 @@ public class UserTokenService {
     UsertokenRepository usertokenRepository;
 
     public Usertoken findByToken(String token) {
-        return usertokenRepository.findByToken(token);
+        return usertokenRepository.findByToken(token).orElse(null);
     }
 }

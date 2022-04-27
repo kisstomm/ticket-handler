@@ -52,12 +52,17 @@ public class CoreController {
     @GetMapping("/getIsTokenValid")
     public UsertokenResponseDto getIsTokenValid(@RequestParam("token") String token) {
         log.info(String.format("CORE - getIsTokenValid: token: %s", token));
+        UsertokenResponseDto usertokenResponseDto = new UsertokenResponseDto();
+
+        if(token == "" || token == null) {
+            usertokenResponseDto.setErrorType(ErrorType.CORE_USER_TOKEN_NULL);
+            return usertokenResponseDto;
+        }
 
         Usertoken usertoken = userTokenService.findByToken(token);
-        log.info(String.format("CORE - getIsTokenValid: usertoken: %s", usertoken.getToken()));
 
-        UsertokenResponseDto usertokenResponseDto = new UsertokenResponseDto();
-        if(Objects.equals(token, usertoken.getToken())) {
+
+        if(usertoken != null && Objects.equals(token, usertoken.getToken())) {
             usertokenResponseDto.setErrorType(ErrorType.NO_ERROR);
             usertokenResponseDto.setUsertokenId(usertoken.getUsertokenId());
             usertokenResponseDto.setUserId(usertoken.getUserId());

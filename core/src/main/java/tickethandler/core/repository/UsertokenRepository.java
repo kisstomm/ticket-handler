@@ -4,8 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import tickethandler.core.model.Usertoken;
 
+import java.util.Optional;
+
 @Repository
 public interface UsertokenRepository extends JpaRepository<Usertoken, Long> {
 
-    Usertoken findByToken(String token);
+    Optional<Usertoken> findByToken(String token);
 }
