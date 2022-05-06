@@ -34,15 +34,29 @@ public class CoreControllerTest extends BaseTest {
 
         cardValidationResponseDto = coreController.getCardValidation(USER_ID_1, USER_BANK_CARD_ID_1, AMOUNT_1);
         assertTrue(cardValidationResponseDto.isSuccess());
+        assertEquals(cardValidationResponseDto.getErrorType(), ErrorType.NO_ERROR);
 
         cardValidationResponseDto = coreController.getCardValidation(USER_ID_1, USER_BANK_CARD_ID_1, 0);
         assertTrue(cardValidationResponseDto.isSuccess());
+        assertEquals(cardValidationResponseDto.getErrorType(), ErrorType.NO_ERROR);
 
         cardValidationResponseDto = coreController.getCardValidation(USER_ID_1, USER_BANK_CARD_ID_1, AMOUNT_1 - 1);
         assertTrue(cardValidationResponseDto.isSuccess());
+        assertEquals(cardValidationResponseDto.getErrorType(), ErrorType.NO_ERROR);
 
         cardValidationResponseDto = coreController.getCardValidation(USER_ID_1, USER_BANK_CARD_ID_1, AMOUNT_1 + 1);
         assertFalse(cardValidationResponseDto.isSuccess());
+        assertEquals(cardValidationResponseDto.getErrorType(), ErrorType.CORE_NOT_ENOUGH_MONEY);
+
+
+
+        cardValidationResponseDto = coreController.getCardValidation(USER_ID_1, USER_BANK_CARD_ID_2, 0);
+        assertFalse(cardValidationResponseDto.isSuccess());
+        assertEquals(cardValidationResponseDto.getErrorType(), ErrorType.CORE_CARD_NOT_FOR_USER);
+
+        cardValidationResponseDto = coreController.getCardValidation(USER_ID_2, USER_BANK_CARD_ID_1, 0);
+        assertFalse(cardValidationResponseDto.isSuccess());
+        assertEquals(cardValidationResponseDto.getErrorType(), ErrorType.CORE_CARD_NOT_FOR_USER);
     }
 
     void assertUsertokenResponseDto(String token, ErrorType errorType) {

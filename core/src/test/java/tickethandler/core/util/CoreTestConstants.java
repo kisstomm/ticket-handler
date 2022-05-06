@@ -8,6 +8,7 @@ public interface CoreTestConstants {
 
     // user id constants
     final Long USER_ID_1 = 1L;
+    final Long USER_ID_2 = 2L;
 
 
     // token constants
@@ -17,6 +18,7 @@ public interface CoreTestConstants {
 
     // user bank card id constants
     final Long USER_BANK_CARD_ID_1 = 1L;
+    final Long USER_BANK_CARD_ID_2 = 2L;
 
 
     // card id constants
