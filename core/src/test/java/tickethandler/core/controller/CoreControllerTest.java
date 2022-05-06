@@ -10,9 +10,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import tickethandler.common.dto.pay.CardValidationResponseDto;
 import tickethandler.common.dto.user.UsertokenResponseDto;
 import tickethandler.common.enums.ErrorType;
+import tickethandler.core.model.Userbankcard;
 import tickethandler.core.model.Usertoken;
+import tickethandler.core.repository.UserbankcardRepository;
 import tickethandler.core.repository.UsertokenRepository;
 import tickethandler.core.util.CoreTestConstants;
 
@@ -29,6 +32,8 @@ public class CoreControllerTest implements CoreTestConstants {
     @Autowired
     UsertokenRepository usertokenRepository;
 
+    @Autowired
+    UserbankcardRepository userbankcardRepository;
 
 
     @BeforeAll
@@ -37,8 +42,18 @@ public class CoreControllerTest implements CoreTestConstants {
         usertoken.setUsertokenId(USER_TOKEN_ID_1);
         usertoken.setUserId(USER_ID_1);
         usertoken.setToken(TOKEN_1);
-
         usertokenRepository.save(usertoken);
+
+        Userbankcard userbankcard = new Userbankcard();
+        userbankcard.setUserbankcardId(USER_BANK_CARD_ID_1);
+        userbankcard.setUserId(USER_ID_1);
+        userbankcard.setCardId(CARD_ID_1);
+        userbankcard.setCardNumber(CARD_NUMBER_1);
+        userbankcard.setCvc(CVC_1);
+        userbankcard.setName(CARD_NAME_1);
+        userbankcard.setAmount(AMOUNT_1);
+        userbankcard.setCurrency(CURRENCY_1);
+        userbankcardRepository.save(userbankcard);
     }
 
     @Test
@@ -50,6 +65,23 @@ public class CoreControllerTest implements CoreTestConstants {
         assertUsertokenResponseDto(TOKEN_INVALID, ErrorType.CORE_USER_TOKEN_INVALID);
         assertUsertokenResponseDto(tokenEmpty, ErrorType.CORE_USER_TOKEN_NULL);
         assertUsertokenResponseDto(tokenNull, ErrorType.CORE_USER_TOKEN_NULL);
+    }
+
+    @Test
+    void testCardValidation() {
+        CardValidationResponseDto cardValidationResponseDto;
+
+        cardValidationResponseDto = coreController.getCardValidation(USER_ID_1, USER_BANK_CARD_ID_1, AMOUNT_1);
+        assertTrue(cardValidationResponseDto.isSuccess());
+
+        cardValidationResponseDto = coreController.getCardValidation(USER_ID_1, USER_BANK_CARD_ID_1, 0);
+        assertTrue(cardValidationResponseDto.isSuccess());
+
+        cardValidationResponseDto = coreController.getCardValidation(USER_ID_1, USER_BANK_CARD_ID_1, AMOUNT_1 - 1);
+        assertTrue(cardValidationResponseDto.isSuccess());
+
+        cardValidationResponseDto = coreController.getCardValidation(USER_ID_1, USER_BANK_CARD_ID_1, AMOUNT_1 + 1);
+        assertFalse(cardValidationResponseDto.isSuccess());
     }
 
     void assertUsertokenResponseDto(String token, ErrorType errorType) {
