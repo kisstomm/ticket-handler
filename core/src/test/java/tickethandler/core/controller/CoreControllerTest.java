@@ -14,6 +14,7 @@ import tickethandler.common.dto.user.UsertokenResponseDto;
 import tickethandler.common.enums.ErrorType;
 import tickethandler.core.model.Usertoken;
 import tickethandler.core.repository.UsertokenRepository;
+import tickethandler.core.util.CoreTestConstants;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,32 +22,32 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CoreControllerTest {
+public class CoreControllerTest implements CoreTestConstants {
     @Autowired
     CoreController coreController;
 
     @Autowired
     UsertokenRepository usertokenRepository;
 
+
+
     @BeforeAll
     protected void setUp() {
         Usertoken usertoken = new Usertoken();
-        usertoken.setUsertokenId(1L);
-        usertoken.setUserId(123L);
-        usertoken.setToken("T0k3n");
+        usertoken.setUsertokenId(USER_TOKEN_ID_1);
+        usertoken.setUserId(USER_ID_1);
+        usertoken.setToken(TOKEN_1);
 
         usertokenRepository.save(usertoken);
     }
 
     @Test
     void testIsTokenValid() {
-        final String tokenValid = "T0k3n";
-        final String tokenInValid = "invalid token";
         final String tokenEmpty = "";
         final String tokenNull = null;
 
-        assertUsertokenResponseDto(tokenValid, ErrorType.NO_ERROR);
-        assertUsertokenResponseDto(tokenInValid, ErrorType.CORE_USER_TOKEN_INVALID);
+        assertUsertokenResponseDto(TOKEN_1, ErrorType.NO_ERROR);
+        assertUsertokenResponseDto(TOKEN_INVALID, ErrorType.CORE_USER_TOKEN_INVALID);
         assertUsertokenResponseDto(tokenEmpty, ErrorType.CORE_USER_TOKEN_NULL);
         assertUsertokenResponseDto(tokenNull, ErrorType.CORE_USER_TOKEN_NULL);
     }
