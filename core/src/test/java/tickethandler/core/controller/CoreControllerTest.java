@@ -45,16 +45,27 @@ public class CoreControllerTest {
         final String tokenEmpty = "";
         final String tokenNull = null;
 
-        UsertokenResponseDto usertokenResponseDto = coreController.getIsTokenValid(tokenValid);
-        assertTrue(usertokenResponseDto.isSuccess());
-        assertEquals(usertokenResponseDto.getErrorType(), ErrorType.NO_ERROR);
+        assertUsertokenResponseDto(tokenValid, ErrorType.NO_ERROR);
+        assertUsertokenResponseDto(tokenInValid, ErrorType.CORE_USER_TOKEN_INVALID);
+        assertUsertokenResponseDto(tokenEmpty, ErrorType.CORE_USER_TOKEN_NULL);
+        assertUsertokenResponseDto(tokenNull, ErrorType.CORE_USER_TOKEN_NULL);
+    }
 
-        usertokenResponseDto = coreController.getIsTokenValid(tokenInValid);
-        assertFalse(usertokenResponseDto.isSuccess());
-        assertEquals(usertokenResponseDto.getErrorType(), ErrorType.CORE_USER_TOKEN_INVALID);
+    void assertUsertokenResponseDto(String token, ErrorType errorType) {
+        UsertokenResponseDto usertokenResponseDto = coreController.getIsTokenValid(token);
 
-        usertokenResponseDto = coreController.getIsTokenValid(tokenEmpty);
-        assertFalse(usertokenResponseDto.isSuccess());
-        assertEquals(usertokenResponseDto.getErrorType(), ErrorType.CORE_USER_TOKEN_NULL);
+        if (errorType == ErrorType.NO_ERROR) {
+            assertTrue(usertokenResponseDto.isSuccess());
+            assertNotNull(usertokenResponseDto.getUsertokenId());
+            assertNotNull(usertokenResponseDto.getUserId());
+            assertEquals(usertokenResponseDto.getToken(), token);
+        } else {
+            assertFalse(usertokenResponseDto.isSuccess());
+            assertNull(usertokenResponseDto.getUsertokenId());
+            assertNull(usertokenResponseDto.getUserId());
+            assertNull(usertokenResponseDto.getToken());
+        }
+
+        assertEquals(usertokenResponseDto.getErrorType(), errorType);
     }
 }
